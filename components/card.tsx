@@ -1,4 +1,4 @@
-import { useChain } from "@cosmos-kit/react";
+import { useChain, useWallet, useChainWallet } from "@cosmos-kit/react";
 import { useChains } from "@cosmos-kit/react-lite";
 import { Box, GridItem, Icon, Stack, useColorModeValue } from "@chakra-ui/react";
 import { MouseEventHandler, useEffect } from "react";
@@ -7,11 +7,9 @@ import {
   Astronaut,
   Error,
   Connected,
-  ConnectedShowAddress,
   ConnectedUserInfo,
   Connecting,
   ConnectStatusWarn,
-  CopyAddressBtn,
   Disconnected,
   NotExist,
   Rejected,
@@ -23,20 +21,28 @@ export const WalletCardSection = ({ chainName }: { chainName: string }) => {
   const { connect, openView, status, username, address, message, wallet } = useChain(chainName);
 
   const res = useChains(["oraichain", "cosmoshub", "osmosis", "injective", "noble"]);
+  const keplrWallet = useWallet("keplr-extension");
+
+  const chainWallet = useChainWallet("oraichain", "keplr-extension");
+  // const networkWallet = useNetworkWallet("cosmos", "keplr-extension");
+
+  console.log({ chainWallet });
 
   useEffect(() => {
-    const t = Object.entries(res).map(([key, value]) => {
+    Object.entries(res).map(([key, value]) => {
       console.log({ value });
     });
   }, [res]);
 
-  // Events
+  // Eventse
   const onClickConnect: MouseEventHandler = async (e) => {
     e.preventDefault();
+    console.log("connect");
     await connect();
   };
 
   const onClickOpenView: MouseEventHandler = (e) => {
+    console.log("open_view");
     e.preventDefault();
     openView();
   };
@@ -75,13 +81,6 @@ export const WalletCardSection = ({ chainName }: { chainName: string }) => {
   );
 
   const userInfo = username && <ConnectedUserInfo username={username} icon={<Astronaut />} />;
-  const addressBtn = (
-    <CopyAddressBtn
-      walletStatus={status}
-      connected={<ConnectedShowAddress address={address} isLoading={false} />}
-    />
-  );
-
   return (
     <>
       {connectWalletWarn && <GridItem>{connectWalletWarn}</GridItem>}
@@ -100,7 +99,6 @@ export const WalletCardSection = ({ chainName }: { chainName: string }) => {
           py={{ base: 6, md: 12 }}
         >
           {userInfo}
-          {addressBtn}
           <Box w="full" maxW={{ base: 52, md: 64 }}>
             {connectWalletButton}
           </Box>

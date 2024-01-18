@@ -4,10 +4,13 @@ import { useEffect, useMemo, useState } from "react";
 import { ChainOption, ChooseChain, handleSelectChainDropdown, ConnectWalletButton } from ".";
 import { ChainName } from "@cosmos-kit/core";
 import { WalletCardSection } from "./card";
+import Connect from "./react/connect";
 
 export const WalletSection = () => {
   const [chainName, setChainName] = useState<ChainName | undefined>("oraichain");
   const { chainRecords, getChainLogo } = useManager();
+
+  console.log({ chainRecords: chainRecords.map((item) => item.name) });
 
   const chainOptions = useMemo(
     () =>
@@ -42,7 +45,7 @@ export const WalletSection = () => {
   );
 
   return (
-    <Center py={16}>
+    <Center py={2}>
       <Grid
         w="full"
         maxW="sm"
@@ -57,6 +60,8 @@ export const WalletSection = () => {
         ) : (
           <ConnectWalletButton buttonText={"Connect Wallet"} isDisabled />
         )}
+
+        <Connect />
       </Grid>
     </Center>
   );
