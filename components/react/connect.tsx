@@ -16,13 +16,19 @@ export default function Connect() {
   //   }
   // }, []);
 
-  // const wallet = useWallet();
-  // useEffect(() => {
-  //   if (wallet) {
-  //     console.log("wallet: ", wallet.mainWallet?.walletPrettyName);
-  //     console.log("wallet status: ", wallet.status);
-  //   }
-  // }, [wallet]);
+  // how to check is owallet: window.keplr.isOwallet
+
+  useEffect(() => {
+    console.log("keplr", window.keplr);
+  }, []);
+
+  const wallet = useWallet();
+  useEffect(() => {
+    if (wallet) {
+      console.log("wallet: ", wallet.mainWallet?.walletPrettyName);
+      console.log("wallet status: ", wallet.status);
+    }
+  }, [wallet]);
 
   // // use client of current wallet, if not it is undef,
   // // but we use multiple wallet with multiple chain so this hook can not use
