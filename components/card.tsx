@@ -21,7 +21,6 @@ export const WalletCardSection = ({ chainName }: { chainName: string }) => {
   const { connect, openView, status, username, address, message, wallet } = useChain(chainName);
 
   const res = useChains(["oraichain", "cosmoshub", "osmosis", "injective", "noble"]);
-  const keplrWallet = useWallet("keplr-extension");
 
   const chainWallet = useChainWallet("oraichain", "keplr-extension");
   // const networkWallet = useNetworkWallet("cosmos", "keplr-extension");
